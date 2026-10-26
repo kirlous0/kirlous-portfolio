@@ -7,10 +7,20 @@ interface HeroProps {
   content: PageContent[];
 }
 
+/*
+ * Hero staggered entrance animation.
+ *
+ * The CSS rule `.hero-reveal > [data-hero-delay]` targets elements
+ * with this data attribute. The `--hero-delay` custom property
+ * (set via inline style) provides the stagger timing.
+ *
+ * The h1 heading intentionally has NO animation — it's the LCP
+ * element and must render immediately at full opacity.
+ */
+
 export function Hero({ locale, content }: HeroProps) {
   const t = getTranslations(locale);
   
-  // Get content from DB or fall back to translations
   const getContent = (key: string, fallback: string) => {
     const item = content.find(c => c.section_key === key);
     if (!item) return fallback;
@@ -28,28 +38,26 @@ export function Hero({ locale, content }: HeroProps) {
       <div className="ambient-grid" aria-hidden="true" />
 
       <div className="container-portfolio relative">
-        {/* Metadata Label — stagger item 1 */}
+        {/* Metadata Label — stagger: 0ms */}
         <p
           className="text-label text-subtle mb-8 md:mb-12 tracking-widest"
+          data-hero-delay=""
           style={{ '--hero-delay': '0ms' } as React.CSSProperties}
         >
           {metadata}
         </p>
 
-        {/*
-         * Headline — NO animation.
-         * This is the likely LCP element; it renders immediately
-         * at full opacity and position. Not wrapped in hero-reveal.
-         */}
+        {/* Headline — NO animation (LCP element, renders immediately) */}
         <h1 className="heading-display text-foreground mb-8 md:mb-12 max-w-[90vw] md:max-w-[80vw]">
           {headline}
         </h1>
 
         {/* Introduction + Actions Row */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mt-4 md:mt-8">
-          {/* Intro paragraph — stagger item 2 */}
+          {/* Intro paragraph — stagger: 200ms */}
           <div
             className="md:col-span-6 lg:col-span-5"
+            data-hero-delay=""
             style={{ '--hero-delay': '200ms' } as React.CSSProperties}
           >
             <p className="text-body text-muted leading-relaxed prose-portfolio">
@@ -57,11 +65,12 @@ export function Hero({ locale, content }: HeroProps) {
             </p>
           </div>
           
-          {/* CTAs — stagger items 3 & 4 */}
+          {/* CTAs — stagger: 300ms & 400ms */}
           <div className="md:col-span-6 lg:col-span-4 md:col-start-8 flex flex-col gap-4 md:items-start md:justify-end">
             <Link
               href={`/${locale}/work`}
               className="arrow-link group inline-flex items-center gap-3 text-foreground hover:text-accent transition-colors focus-ring py-2"
+              data-hero-delay=""
               style={{ '--hero-delay': '300ms' } as React.CSSProperties}
             >
               <span className="text-small tracking-wider uppercase arrow-underline">
@@ -78,6 +87,7 @@ export function Hero({ locale, content }: HeroProps) {
             <Link
               href={`/${locale}/contact`}
               className="arrow-link group inline-flex items-center gap-3 text-muted hover:text-foreground transition-colors focus-ring py-2"
+              data-hero-delay=""
               style={{ '--hero-delay': '400ms' } as React.CSSProperties}
             >
               <span className="text-small tracking-wider uppercase arrow-underline">
