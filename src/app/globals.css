@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #10100F;
+  --color-surface: #171716;
+  --color-foreground: #F0EFEA;
+  --color-muted: #A09F99;
+  --color-subtle: #74736E;
+  --color-border: #343431;
+  --color-accent: #C6C1B5;
+  --color-success: #4ade80;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', 'Monaco', 'Consolas', monospace;
+  
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-slide-down: slide-down 0.3s ease-out;
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slide-down {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  
+  .container-portfolio {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container-portfolio {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-portfolio {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+  
+  .heading-display {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .heading-section {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  
+  .heading-subsection {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+  
+  .text-body {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.6;
+  }
+  
+  .text-small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  
+  .text-label {
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+  
+  .focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  
+  .focus-ring:focus-visible {
+    outline-color: var(--color-accent);
+  }
+  
+  .prose-portfolio {
+    max-width: 65ch;
+  }
+  
+  .prose-portfolio p {
+    margin-bottom: 1.5em;
+  }
+  
+  .prose-portfolio h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 500;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+  
+  .prose-portfolio h3 {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 500;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  .prose-portfolio ul {
+    list-style-type: disc;
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  
+  .prose-portfolio ol {
+    list-style-type: decimal;
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  
+  .prose-portfolio li {
+    margin-bottom: 0.5em;
+  }
+  
+  .prose-portfolio a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  
+  .prose-portfolio a:hover {
+    color: var(--color-foreground);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
