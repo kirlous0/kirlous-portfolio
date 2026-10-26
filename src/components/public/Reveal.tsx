@@ -49,39 +49,35 @@ export function Reveal({
 }
 
 /**
- * Clone children and inject --delay CSS custom property for stagger.
- * Uses React.cloneElement to avoid wrapping in extra divs.
- * Only operates on valid React elements; passes through strings/nulls.
+ * Wrap each child in a div with --delay CSS custom property for stagger.
+ * This avoids the need for React.cloneElement and type issues.
+ * Only wraps valid React elements; passes through strings/nulls.
  */
 function applyStaggerDelays(
   children: React.ReactNode,
   base: number,
   step: number
 ): React.ReactNode {
-  let index = 0;
-  
-  const processChild = (child: React.ReactNode): React.ReactNode => {
-    if (!child || typeof child !== 'object' || !('type' in child)) {
+  if (!Array.isArray(children)) {
+    return children;
+  }
+
+  return children.map((child, index) => {
+    // Skip null/undefined/strings
+    if (!child || typeof child !== 'object') {
       return child;
     }
-    
+
     const delay = base + index * step;
-    index++;
     
-    // Use React.cloneElement to inject --delay without wrapping
-    return {
-      ...child,
-      props: {
-        ...child.props,
-        style: {
-          ...child.props.style,
-          '--delay': `${delay}ms`,
-        },
-      },
-    };
-  };
-  
-  return Array.isArray(children)
-    ? children.map(processChild)
-    : processChild(children);
+    // Wrap in a div with the --delay custom property
+    return (
+      <div
+        key={index}
+        style={{ '--delay': `${delay}ms` } as React.CSSProperties}
+      >
+        {child}
+      </div>
+    );
+  });
 }
