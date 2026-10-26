@@ -11,5 +11,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return (
+    <>
+      {/*
+       * Mark JS as available before first paint.
+       * This blocking inline script runs synchronously before
+       * any CSS is evaluated, so motion styles scoped under
+       * html.js-ready only apply when JS is confirmed working.
+       * No-JS users see all content immediately (progressive enhancement).
+       */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `document.documentElement.classList.add('js-ready')`,
+        }}
+      />
+      {children}
+    </>
+  );
 }

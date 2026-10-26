@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Locale, SiteSettings } from '@/types';
 import { getTranslations } from '@/lib/i18n';
 import { getCurrentYear, isValidUrl } from '@/lib/utils';
+import { Reveal } from '@/components/public/Reveal';
 
 interface FooterProps {
   locale: Locale;
@@ -36,7 +37,7 @@ export function Footer({ locale, settings }: FooterProps) {
 
   return (
     <footer className="border-t border-border bg-surface">
-      <div className="container-portfolio py-16 md:py-24">
+      <Reveal className="container-portfolio py-16 md:py-24" stagger staggerStep={100}>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
           {/* Brand Column */}
           <div className="md:col-span-5">
@@ -79,7 +80,7 @@ export function Footer({ locale, settings }: FooterProps) {
                       className="text-small text-muted hover:text-foreground transition-colors focus-ring inline-flex items-center gap-2"
                     >
                       {link.label}
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="opacity-50">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="opacity-50" aria-hidden="true">
                         <path d="M3.5 3H9V8.5" stroke="currentColor" strokeWidth="1" />
                         <path d="M9 3L3 9" stroke="currentColor" strokeWidth="1" />
                       </svg>
@@ -112,7 +113,7 @@ export function Footer({ locale, settings }: FooterProps) {
             </Link>
           </div>
         </div>
-      </div>
+      </Reveal>
     </footer>
   );
 }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Locale, Project } from '@/types';
 import { getTranslations } from '@/lib/i18n';
 import { getProjectStateLabel, formatDate } from '@/lib/utils';
+import { Reveal } from '@/components/public/Reveal';
 
 interface SelectedWorkProps {
   locale: Locale;
@@ -17,7 +18,7 @@ export function SelectedWork({ locale, projects }: SelectedWorkProps) {
 
   return (
     <section className="py-20 md:py-32">
-      <div className="container-portfolio">
+      <Reveal className="container-portfolio">
         {/* Section Header */}
         <div className="flex items-baseline justify-between mb-12 md:mb-20">
           <div>
@@ -28,12 +29,13 @@ export function SelectedWork({ locale, projects }: SelectedWorkProps) {
           </div>
           <Link
             href={`/${locale}/work`}
-            className="group text-small text-muted hover:text-foreground transition-colors focus-ring hidden md:inline-flex items-center gap-2"
+            className="arrow-link arrow-underline group text-small text-muted hover:text-foreground transition-colors focus-ring hidden md:inline-flex items-center gap-2"
           >
             {t.common.viewAll}
             <svg 
               width="16" height="8" viewBox="0 0 16 8" fill="none"
-              className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+              className="arrow-icon rtl:rotate-180"
+              aria-hidden="true"
             >
               <path d="M0 4H14M14 4L10 0.5M14 4L10 7.5" stroke="currentColor" strokeWidth="1" />
             </svg>
@@ -126,18 +128,19 @@ export function SelectedWork({ locale, projects }: SelectedWorkProps) {
         <div className="mt-12 md:hidden">
           <Link
             href={`/${locale}/work`}
-            className="group inline-flex items-center gap-2 text-small text-muted hover:text-foreground transition-colors focus-ring"
+            className="arrow-link group inline-flex items-center gap-2 text-small text-muted hover:text-foreground transition-colors focus-ring"
           >
-            {t.common.viewAll}
+            <span className="arrow-underline">{t.common.viewAll}</span>
             <svg 
               width="16" height="8" viewBox="0 0 16 8" fill="none"
-              className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+              className="arrow-icon rtl:rotate-180"
+              aria-hidden="true"
             >
               <path d="M0 4H14M14 4L10 0.5M14 4L10 7.5" stroke="currentColor" strokeWidth="1" />
             </svg>
           </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

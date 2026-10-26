@@ -1,5 +1,6 @@
 import type { Locale, Service } from '@/types';
 import { getTranslations } from '@/lib/i18n';
+import { Reveal } from '@/components/public/Reveal';
 
 interface CapabilitiesProps {
   locale: Locale;
@@ -15,7 +16,7 @@ export function Capabilities({ locale, services }: CapabilitiesProps) {
 
   return (
     <section className="py-20 md:py-32 bg-surface">
-      <div className="container-portfolio">
+      <Reveal className="container-portfolio" stagger staggerStep={80}>
         {/* Section Header */}
         <div className="mb-12 md:mb-20">
           <p className="text-label text-subtle mb-3">002</p>
@@ -31,10 +32,10 @@ export function Capabilities({ locale, services }: CapabilitiesProps) {
             return (
               <div
                 key={service.id}
-                className="bg-surface p-8 md:p-12 group"
+                className="capability-card bg-surface p-8 md:p-12 group"
               >
                 <div className="flex items-start justify-between mb-6">
-                  <span className="text-label text-subtle">
+                  <span className="card-index text-label text-subtle">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
@@ -52,7 +53,7 @@ export function Capabilities({ locale, services }: CapabilitiesProps) {
             );
           })}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

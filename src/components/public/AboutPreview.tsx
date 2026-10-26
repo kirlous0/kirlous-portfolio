@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Locale, PageContent } from '@/types';
 import { getTranslations } from '@/lib/i18n';
+import { Reveal } from '@/components/public/Reveal';
 
 interface AboutPreviewProps {
   locale: Locale;
@@ -15,7 +16,7 @@ export function AboutPreview({ locale, content }: AboutPreviewProps) {
 
   return (
     <section className="py-20 md:py-32 bg-surface">
-      <div className="container-portfolio">
+      <Reveal className="container-portfolio" stagger staggerStep={120}>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
           <div className="md:col-span-4">
             <p className="text-label text-subtle mb-3">004</p>
@@ -37,21 +38,22 @@ export function AboutPreview({ locale, content }: AboutPreviewProps) {
             
             <Link
               href={`/${locale}/about`}
-              className="group inline-flex items-center gap-3 text-foreground hover:text-accent transition-colors focus-ring mt-8"
+              className="arrow-link group inline-flex items-center gap-3 text-foreground hover:text-accent transition-colors focus-ring mt-8"
             >
-              <span className="text-small tracking-wider uppercase">
+              <span className="text-small tracking-wider uppercase arrow-underline">
                 {locale === 'en' ? 'Read More' : 'اقرأ المزيد'}
               </span>
               <svg 
                 width="24" height="12" viewBox="0 0 24 12" fill="none"
-                className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+                className="arrow-icon rtl:rotate-180"
+                aria-hidden="true"
               >
                 <path d="M0 6H22M22 6L17 1M22 6L17 11" stroke="currentColor" strokeWidth="1" />
               </svg>
             </Link>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

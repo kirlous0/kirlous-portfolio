@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { Locale } from '@/types';
@@ -17,6 +17,7 @@ interface NavigationProps {
 
 export function Navigation({ locale }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const t = getTranslations(locale);
   
@@ -30,8 +31,40 @@ export function Navigation({ locale }: NavigationProps) {
     { label: t.nav.contact, href: `/${locale}/contact` },
   ];
 
+  /*
+   * Scroll-aware navbar: background/border appear after 20px scroll.
+   * Uses passive listener + rAF throttle. No layout shift:
+   * height, padding, and font sizes stay constant.
+   */
+  useEffect(() => {
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // Set initial state (handles page restore with scroll position)
+    onScroll();
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
+    <header
+      className={cn(
+        'nav-header fixed top-0 left-0 right-0 z-50 border-b',
+        scrolled
+          ? 'bg-background border-border'
+          : 'bg-transparent border-transparent'
+      )}
+    >
       <nav className="container-portfolio">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Brand */}
