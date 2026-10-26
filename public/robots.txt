@@ -4,4 +4,4 @@ Allow: /ar/
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://kirlouswael.com/sitemap.xml
+Sitemap: https://kirlous-portfolio-ten.vercel.app/sitemap.xml

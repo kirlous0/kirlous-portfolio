@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getPublishedProjects } from '@/lib/data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kirlouswael.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kirlous-portfolio-ten.vercel.app';
   
   const staticPages = [
     '', '/work', '/services', '/about', '/contact'
