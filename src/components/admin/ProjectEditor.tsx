@@ -6,6 +6,8 @@ import type { Project, ProjectState, SiteSettings } from '@/types';
 import { slugify } from '@/lib/utils';
 import { cn } from '@/lib/cn';
 import { GitHubIntegration } from './GitHubIntegration';
+import { useToast } from '@/components/Toast';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
 
 interface ProjectEditorProps {
   project?: Project | null;
@@ -16,10 +18,12 @@ type Tab = 'basic' | 'english' | 'arabic' | 'technical' | 'links' | 'image' | 'p
 
 export function ProjectEditor({ project, settings }: ProjectEditorProps) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<Tab>('basic');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const [formData, setFormData] = useState({
     title_en: project?.title_en || '',
@@ -124,13 +128,15 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
         throw new Error(errorData.error || 'Failed to save project');
       }
 
-      setSuccess('Project saved successfully');
+      showToast('Project saved successfully!', 'success');
       setTimeout(() => {
         router.push('/admin/projects');
         router.refresh();
       }, 1000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
+      showToast(errorMessage, 'error');
     } finally {
       setSaving(false);
     }
@@ -138,10 +144,6 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
 
   const handleDelete = async () => {
     if (!project) return;
-    
-    if (!confirm('Are you sure you want to delete this project? This cannot be undone.')) {
-      return;
-    }
 
     setSaving(true);
     try {
@@ -153,10 +155,16 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
         throw new Error('Failed to delete project');
       }
 
-      router.push('/admin/projects');
-      router.refresh();
+      showToast('Project deleted successfully', 'success');
+      setTimeout(() => {
+        router.push('/admin/projects');
+        router.refresh();
+      }, 1000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
+      showToast(errorMessage, 'error');
+      setShowDeleteConfirm(false);
     } finally {
       setSaving(false);
     }
@@ -674,7 +682,7 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
           {project && (
             <button
               type="button"
-              onClick={handleDelete}
+              onClick={() => setShowDeleteConfirm(true)}
               disabled={saving}
               className="text-error border border-error/30 px-6 py-3 hover:bg-error/10 transition-colors focus-ring disabled:opacity-50 ms-auto"
             >
@@ -683,6 +691,24 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
           )}
         </div>
       </form>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete Project"
+        message={
+          <>
+            Are you sure you want to delete <strong>{project?.title_en}</strong>?
+            <br /><br />
+            This action cannot be undone.
+          </>
+        }
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={handleDelete}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </div>
   );
 }

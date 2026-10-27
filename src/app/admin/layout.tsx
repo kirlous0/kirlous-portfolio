@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { ToastProvider } from '@/components/Toast';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'Admin — Kirlous Wael',
@@ -16,7 +18,11 @@ export default function AdminLayout({
   return (
     <html lang="en" dir="ltr">
       <body className="antialiased bg-background text-foreground">
-        {children}
+        <ErrorBoundary>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
