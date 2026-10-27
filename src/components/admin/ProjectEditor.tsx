@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { Project, ProjectState } from '@/types';
 import { slugify } from '@/lib/utils';
 import { cn } from '@/lib/cn';
+import { GitHubIntegration } from './GitHubIntegration';
 
 interface ProjectEditorProps {
   project?: Project | null;
@@ -72,6 +73,24 @@ export function ProjectEditor({ project }: ProjectEditorProps) {
       
       return { ...prev, ...updates };
     });
+  };
+
+  const handleRepoSelect = (repoData: any) => {
+    // Auto-fill form fields from GitHub repo data
+    setFormData(prev => ({
+      ...prev,
+      source_url: repoData.htmlUrl || prev.source_url,
+      summary_en: repoData.description || prev.summary_en,
+      technologies: repoData.topics?.join(', ') || prev.technologies,
+      category: repoData.language || prev.category,
+    }));
+  };
+
+  const handlePreviewUrlFetch = (url: string) => {
+    setFormData(prev => ({
+      ...prev,
+      live_url: url,
+    }));
   };
 
   const handleSubmit = async (publish?: boolean) => {
@@ -184,6 +203,18 @@ export function ProjectEditor({ project }: ProjectEditorProps) {
         {/* Basic Info Tab */}
         {activeTab === 'basic' && (
           <div className="space-y-6">
+            {/* GitHub Integration */}
+            <GitHubIntegration
+              onRepoSelect={handleRepoSelect}
+              onPreviewUrlFetch={handlePreviewUrlFetch}
+              currentSourceUrl={formData.source_url}
+              currentLiveUrl={formData.live_url}
+            />
+
+            <div className="border-t border-border pt-6">
+              <h3 className="text-label text-foreground mb-4">Project Details</h3>
+            </div>
+
             <div>
               <label htmlFor="title_en" className="text-label text-subtle block mb-2">
                 Title (English) *
