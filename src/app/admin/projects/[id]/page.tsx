@@ -1,6 +1,6 @@
 import { redirect, notFound } from 'next/navigation';
 import { getUser, isAdmin } from '@/lib/supabase/server';
-import { getProjectById } from '@/lib/data';
+import { getProjectById, getSiteSettings } from '@/lib/data';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { ProjectEditor } from '@/components/admin/ProjectEditor';
 
@@ -16,6 +16,7 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
 
   const { id } = await params;
   const project = await getProjectById(id);
+  const settings = await getSiteSettings();
 
   if (!project) {
     notFound();
@@ -27,7 +28,7 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
       
       <main className="flex-1 p-6 md:p-12 pt-20 md:pt-12">
         <div className="max-w-4xl">
-          <ProjectEditor project={project} />
+          <ProjectEditor project={project} settings={settings} />
         </div>
       </main>
     </div>

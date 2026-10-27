@@ -2,18 +2,19 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Project, ProjectState } from '@/types';
+import type { Project, ProjectState, SiteSettings } from '@/types';
 import { slugify } from '@/lib/utils';
 import { cn } from '@/lib/cn';
 import { GitHubIntegration } from './GitHubIntegration';
 
 interface ProjectEditorProps {
   project?: Project | null;
+  settings?: SiteSettings | null;
 }
 
 type Tab = 'basic' | 'english' | 'arabic' | 'technical' | 'links' | 'image' | 'publishing';
 
-export function ProjectEditor({ project }: ProjectEditorProps) {
+export function ProjectEditor({ project, settings }: ProjectEditorProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>('basic');
   const [saving, setSaving] = useState(false);
@@ -209,6 +210,7 @@ export function ProjectEditor({ project }: ProjectEditorProps) {
               onPreviewUrlFetch={handlePreviewUrlFetch}
               currentSourceUrl={formData.source_url}
               currentLiveUrl={formData.live_url}
+              defaultUsername={settings?.github_username || undefined}
             />
 
             <div className="border-t border-border pt-6">

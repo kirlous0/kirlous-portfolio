@@ -7,6 +7,7 @@ interface GitHubIntegrationProps {
   onPreviewUrlFetch: (url: string) => void;
   currentSourceUrl?: string;
   currentLiveUrl?: string;
+  defaultUsername?: string;
 }
 
 interface Repo {
@@ -28,8 +29,9 @@ export function GitHubIntegration({
   onPreviewUrlFetch,
   currentSourceUrl,
   currentLiveUrl,
+  defaultUsername,
 }: GitHubIntegrationProps) {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(defaultUsername || '');
   const [repos, setRepos] = useState<Repo[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<string>('');
   const [loading, setLoading] = useState(false);

@@ -63,6 +63,7 @@ export interface SiteSettings {
   site_title_ar: string;
   site_description_en: string | null;
   site_description_ar: string | null;
+  github_username: string | null;
   updated_at: string;
 }
 

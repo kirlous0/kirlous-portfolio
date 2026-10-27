@@ -19,6 +19,7 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
     github_url: settings?.github_url || '',
     linkedin_url: settings?.linkedin_url || '',
     cv_url: settings?.cv_url || '',
+    github_username: settings?.github_username || '',
     site_title_en: settings?.site_title_en || 'Kirlous Wael — Web Developer',
     site_title_ar: settings?.site_title_ar || 'كيرلس وائل — مطور ويب',
     site_description_en: settings?.site_description_en || '',
@@ -50,6 +51,7 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
           github_url: formData.github_url || null,
           linkedin_url: formData.linkedin_url || null,
           cv_url: formData.cv_url || null,
+          github_username: formData.github_username || null,
           site_description_en: formData.site_description_en || null,
           site_description_ar: formData.site_description_ar || null,
         }),
@@ -122,6 +124,17 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
           <h2 className="text-xl font-medium text-foreground mb-6">Social & Professional Links</h2>
           
           <div className="space-y-6">
+            <div>
+              <label className="text-label text-subtle block mb-2">GitHub Username</label>
+              <input
+                type="text"
+                value={formData.github_username}
+                onChange={(e) => setFormData(prev => ({ ...prev, github_username: e.target.value }))}
+                placeholder="e.g., kirlous0"
+                className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
+              />
+              <p className="text-xs text-subtle mt-1">Used for GitHub integration in projects</p>
+            </div>
             <div>
               <label className="text-label text-subtle block mb-2">GitHub URL</label>
               <input
