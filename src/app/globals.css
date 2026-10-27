@@ -389,7 +389,7 @@ html.js-ready [dir="rtl"] .approach-line {
   background-size: 32px 32px;
 }
 
-/* --- 8. Background Animation (enhanced floating elements) ------ */
+/* --- 8. Background Animation (calculated, structured motion) ------ */
 
 .background-animation {
   position: fixed;
@@ -400,131 +400,170 @@ html.js-ready [dir="rtl"] .approach-line {
   opacity: 0.6;
 }
 
-/* Floating code symbols */
+/* Grid-based floating code symbols - organized in rows */
 .bg-element {
   position: absolute;
   font-family: var(--font-mono);
   font-size: 2.5rem;
   color: var(--color-accent);
-  opacity: 0.15;
-  animation: float-drift 20s infinite ease-in-out;
+  opacity: 0;
   text-shadow: 0 0 20px rgba(198, 193, 181, 0.3);
+  animation: vertical-float 20s infinite ease-in-out;
 }
 
+/* Row 1: Top section (20% from top) */
 .bg-element-1 {
-  top: 10%;
-  left: 5%;
+  top: 20%;
+  left: 10%;
   animation-delay: 0s;
-  animation-duration: 22s;
 }
 
 .bg-element-2 {
-  top: 30%;
-  right: 8%;
-  animation-delay: -3s;
-  animation-duration: 18s;
+  top: 20%;
+  left: 50%;
+  animation-delay: 4s;
 }
 
 .bg-element-3 {
-  top: 60%;
-  left: 12%;
-  animation-delay: -6s;
-  animation-duration: 20s;
+  top: 20%;
+  right: 10%;
+  animation-delay: 8s;
 }
 
+/* Row 2: Middle section (50% from top) */
 .bg-element-4 {
-  top: 80%;
-  right: 15%;
-  animation-delay: -9s;
-  animation-duration: 24s;
+  top: 50%;
+  left: 15%;
+  animation-delay: 2s;
 }
 
 .bg-element-5 {
-  top: 45%;
-  left: 70%;
-  animation-delay: -12s;
-  animation-duration: 16s;
+  top: 50%;
+  left: 55%;
+  animation-delay: 6s;
 }
 
 .bg-element-6 {
-  top: 20%;
-  right: 40%;
-  animation-delay: -5s;
-  animation-duration: 26s;
+  top: 50%;
+  right: 15%;
+  animation-delay: 10s;
   font-size: 3.5rem;
 }
 
-@keyframes float-drift {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
+/* Row 3: Bottom section (80% from top) */
+.bg-element-7 {
+  top: 80%;
+  left: 20%;
+  animation-delay: 1s;
+}
+
+.bg-element-8 {
+  top: 80%;
+  left: 60%;
+  animation-delay: 5s;
+}
+
+.bg-element-9 {
+  top: 80%;
+  right: 20%;
+  animation-delay: 9s;
+}
+
+/* Predictable vertical float animation */
+@keyframes vertical-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
   }
-  25% {
-    transform: translate(40px, -50px) rotate(8deg) scale(1.05);
+  10% {
+    opacity: 0.15;
   }
   50% {
-    transform: translate(-30px, -100px) rotate(-5deg) scale(0.95);
+    opacity: 0.15;
+    transform: translateY(-100px) rotate(5deg);
   }
-  75% {
-    transform: translate(-50px, -40px) rotate(3deg) scale(1.02);
+  90% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-200px) rotate(0deg);
   }
 }
 
-/* Geometric shapes */
+/* Grid-based geometric shapes - organized in corners */
 .bg-shape {
   position: absolute;
   border: 2px solid var(--color-accent);
-  opacity: 0.12;
-  animation: shape-rotate 30s infinite linear;
+  opacity: 0;
   box-shadow: 0 0 30px rgba(198, 193, 181, 0.1);
+  animation: orbital-rotate 40s infinite linear;
 }
 
+/* Top-right quadrant */
 .bg-shape-1 {
   width: 120px;
   height: 120px;
   top: 15%;
-  left: 80%;
-  animation-duration: 35s;
+  right: 15%;
+  animation-delay: 0s;
 }
 
+/* Bottom-left quadrant */
 .bg-shape-2 {
   width: 80px;
   height: 80px;
-  top: 70%;
+  bottom: 25%;
   left: 20%;
   border-radius: 50%;
-  animation-duration: 28s;
+  animation-delay: 10s;
   animation-direction: reverse;
 }
 
+/* Center-right */
 .bg-shape-3 {
   width: 100px;
   height: 100px;
-  top: 40%;
-  right: 30%;
-  transform: rotate(45deg);
-  animation-duration: 40s;
+  top: 45%;
+  right: 25%;
+  animation-delay: 20s;
 }
 
+/* Center-left */
 .bg-shape-4 {
   width: 70px;
   height: 70px;
-  bottom: 20%;
-  right: 10%;
+  top: 60%;
+  left: 25%;
   border-radius: 50%;
-  animation-duration: 32s;
-  animation-direction: reverse;
+  animation-delay: 30s;
 }
 
-@keyframes shape-rotate {
-  from {
-    transform: rotate(0deg);
+/* Orbital rotation with fade in/out */
+@keyframes orbital-rotate {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.8);
   }
-  to {
-    transform: rotate(360deg);
+  25% {
+    opacity: 0.12;
+    transform: rotate(90deg) scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: rotate(180deg) scale(1.1);
+  }
+  75% {
+    opacity: 0.12;
+    transform: rotate(270deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(360deg) scale(0.8);
   }
 }
 
-/* Animated lines */
+/* Horizontal sweep lines - sequential from left to right */
 .bg-line {
   position: absolute;
   height: 2px;
@@ -534,38 +573,38 @@ html.js-ready [dir="rtl"] .approach-line {
     var(--color-accent) 50%,
     transparent 100%
   );
-  opacity: 0.15;
-  animation: line-sweep 15s infinite ease-in-out;
+  opacity: 0;
   box-shadow: 0 0 10px rgba(198, 193, 181, 0.4);
+  animation: horizontal-sweep 12s infinite ease-in-out;
 }
 
+/* Sequential lines at different heights */
 .bg-line-1 {
-  width: 250px;
-  top: 25%;
-  left: -250px;
+  width: 300px;
+  top: 30%;
+  left: -300px;
   animation-delay: 0s;
 }
 
 .bg-line-2 {
-  width: 200px;
-  top: 55%;
-  left: -200px;
-  animation-delay: -5s;
-  animation-duration: 18s;
+  width: 250px;
+  top: 50%;
+  left: -250px;
+  animation-delay: 4s;
 }
 
 .bg-line-3 {
-  width: 220px;
-  top: 75%;
-  left: -220px;
-  animation-delay: -10s;
-  animation-duration: 16s;
+  width: 280px;
+  top: 70%;
+  left: -280px;
+  animation-delay: 8s;
 }
 
-@keyframes line-sweep {
+/* Predictable horizontal sweep */
+@keyframes horizontal-sweep {
   0% {
-    transform: translateX(0);
     opacity: 0;
+    transform: translateX(0);
   }
   10% {
     opacity: 0.15;
@@ -574,8 +613,8 @@ html.js-ready [dir="rtl"] .approach-line {
     opacity: 0.15;
   }
   100% {
-    transform: translateX(calc(100vw + 250px));
     opacity: 0;
+    transform: translateX(calc(100vw + 300px));
   }
 }
 
@@ -820,4 +859,209 @@ main {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent);
+}
+
+/* --- 21. Parallax Layers (calculated depth) ------------------- */
+
+.parallax-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.parallax-layer-1 {
+  opacity: 0.03;
+  animation: parallax-slow 60s infinite linear;
+}
+
+.parallax-layer-2 {
+  opacity: 0.05;
+  animation: parallax-medium 40s infinite linear;
+}
+
+.parallax-layer-3 {
+  opacity: 0.07;
+  animation: parallax-fast 25s infinite linear;
+}
+
+@keyframes parallax-slow {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(-50px) translateX(30px);
+  }
+}
+
+@keyframes parallax-medium {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(-100px) translateX(-50px);
+  }
+}
+
+@keyframes parallax-fast {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(-150px) translateX(80px);
+  }
+}
+
+/* --- 22. Pulse Dots (organized grid pattern) ------------------ */
+
+.pulse-dots {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+}
+
+.pulse-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse-fade 4s infinite ease-in-out;
+}
+
+/* Grid pattern: 5 columns x 5 rows */
+.pulse-dot:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.pulse-dot:nth-child(2) { top: 10%; left: 30%; animation-delay: 0.5s; }
+.pulse-dot:nth-child(3) { top: 10%; left: 50%; animation-delay: 1s; }
+.pulse-dot:nth-child(4) { top: 10%; left: 70%; animation-delay: 1.5s; }
+.pulse-dot:nth-child(5) { top: 10%; left: 90%; animation-delay: 2s; }
+
+.pulse-dot:nth-child(6) { top: 30%; left: 10%; animation-delay: 0.5s; }
+.pulse-dot:nth-child(7) { top: 30%; left: 30%; animation-delay: 1s; }
+.pulse-dot:nth-child(8) { top: 30%; left: 50%; animation-delay: 1.5s; }
+.pulse-dot:nth-child(9) { top: 30%; left: 70%; animation-delay: 2s; }
+.pulse-dot:nth-child(10) { top: 30%; left: 90%; animation-delay: 2.5s; }
+
+.pulse-dot:nth-child(11) { top: 50%; left: 10%; animation-delay: 1s; }
+.pulse-dot:nth-child(12) { top: 50%; left: 30%; animation-delay: 1.5s; }
+.pulse-dot:nth-child(13) { top: 50%; left: 50%; animation-delay: 2s; }
+.pulse-dot:nth-child(14) { top: 50%; left: 70%; animation-delay: 2.5s; }
+.pulse-dot:nth-child(15) { top: 50%; left: 90%; animation-delay: 3s; }
+
+.pulse-dot:nth-child(16) { top: 70%; left: 10%; animation-delay: 1.5s; }
+.pulse-dot:nth-child(17) { top: 70%; left: 30%; animation-delay: 2s; }
+.pulse-dot:nth-child(18) { top: 70%; left: 50%; animation-delay: 2.5s; }
+.pulse-dot:nth-child(19) { top: 70%; left: 70%; animation-delay: 3s; }
+.pulse-dot:nth-child(20) { top: 70%; left: 90%; animation-delay: 3.5s; }
+
+.pulse-dot:nth-child(21) { top: 90%; left: 10%; animation-delay: 2s; }
+.pulse-dot:nth-child(22) { top: 90%; left: 30%; animation-delay: 2.5s; }
+.pulse-dot:nth-child(23) { top: 90%; left: 50%; animation-delay: 3s; }
+.pulse-dot:nth-child(24) { top: 90%; left: 70%; animation-delay: 3.5s; }
+.pulse-dot:nth-child(25) { top: 90%; left: 90%; animation-delay: 4s; }
+
+@keyframes pulse-fade {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+/* --- 23. Geometric Grid Pattern ------------------------------- */
+
+.geometric-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.02;
+  background-image: 
+    linear-gradient(var(--color-accent) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-accent) 1px, transparent 1px);
+  background-size: 100px 100px;
+  animation: grid-shift 30s infinite linear;
+}
+
+@keyframes grid-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(100px, 100px);
+  }
+}
+
+/* --- 24. Enhanced Hero Decorations ------------------------- */
+
+.hero-decoration {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  animation: decoration-float 15s infinite ease-in-out;
+}
+
+.hero-decoration-1 {
+  top: 20%;
+  right: 10%;
+  width: 200px;
+  height: 200px;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  animation-delay: 0s;
+}
+
+.hero-decoration-2 {
+  bottom: 30%;
+  left: 5%;
+  width: 150px;
+  height: 150px;
+  border: 2px solid var(--color-accent);
+  transform: rotate(45deg);
+  animation-delay: 5s;
+}
+
+.hero-decoration-3 {
+  top: 60%;
+  right: 20%;
+  width: 100px;
+  height: 100px;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  animation-delay: 10s;
+}
+
+@keyframes decoration-float {
+  0%, 100% {
+    opacity: 0.1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    opacity: 0.15;
+    transform: translateY(-20px) rotate(90deg) scale(1.05);
+  }
+  50% {
+    opacity: 0.15;
+    transform: translateY(-40px) rotate(180deg) scale(1.1);
+  }
+  75% {
+    opacity: 0.15;
+    transform: translateY(-20px) rotate(270deg) scale(1.05);
+  }
+}
+
+/* Respect reduced motion for all new animations */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer,
+  .pulse-dot,
+  .geometric-grid,
+  .hero-decoration {
+    animation: none;
+    opacity: 0.05;
+  }
 }

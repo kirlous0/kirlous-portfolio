@@ -40,6 +40,7 @@ export function Hero({ locale, content }: HeroProps) {
       {/* Decorative Elements */}
       <div className="hero-decoration hero-decoration-1" aria-hidden="true"></div>
       <div className="hero-decoration hero-decoration-2" aria-hidden="true"></div>
+      <div className="hero-decoration hero-decoration-3" aria-hidden="true"></div>
 
       <div className="container-portfolio relative">
         {/* Metadata Label — stagger: 0ms */}

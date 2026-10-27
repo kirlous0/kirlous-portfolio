@@ -15,6 +15,44 @@ export async function PublicLayout({ children, locale }: PublicLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col relative">
       <BackgroundAnimation />
+      
+      {/* Parallax Layers */}
+      <div className="parallax-layer parallax-layer-1" aria-hidden="true"></div>
+      <div className="parallax-layer parallax-layer-2" aria-hidden="true"></div>
+      <div className="parallax-layer parallax-layer-3" aria-hidden="true"></div>
+      
+      {/* Pulse Dots Grid */}
+      <div className="pulse-dots" aria-hidden="true">
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+        <div className="pulse-dot"></div>
+      </div>
+      
+      {/* Geometric Grid Pattern */}
+      <div className="geometric-grid" aria-hidden="true"></div>
+      
       <Navigation locale={locale} siteSettings={settings} />
       <main className="flex-1 pt-16 md:pt-20 relative z-10">
         {children}
