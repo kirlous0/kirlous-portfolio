@@ -64,6 +64,7 @@ export function Navigation({ locale }: NavigationProps) {
           ? 'bg-background border-border'
           : 'bg-transparent border-transparent'
       )}
+      data-scrolled={scrolled ? 'true' : 'false'}
     >
       <nav className="container-portfolio">
         <div className="flex items-center justify-between h-16 md:h-20">
