@@ -36,6 +36,10 @@ export function Hero({ locale, content }: HeroProps) {
     <section className="hero-reveal min-h-[90vh] flex flex-col justify-center pt-24 md:pt-32 pb-16 md:pb-24 relative">
       {/* Ambient dot grid — pure CSS, opacity 0.04, static */}
       <div className="ambient-grid" aria-hidden="true" />
+      
+      {/* Decorative Elements */}
+      <div className="hero-decoration hero-decoration-1" aria-hidden="true"></div>
+      <div className="hero-decoration hero-decoration-2" aria-hidden="true"></div>
 
       <div className="container-portfolio relative">
         {/* Metadata Label — stagger: 0ms */}
