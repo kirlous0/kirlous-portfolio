@@ -32,6 +32,13 @@ const updateProjectSchema = z.object({
   cover_image_url: z.string().nullable().optional(),
   cover_image_alt_en: z.string().nullable().optional(),
   cover_image_alt_ar: z.string().nullable().optional(),
+  gallery_images: z.array(z.object({
+    url: z.string(),
+    alt_en: z.string().optional(),
+    alt_ar: z.string().optional(),
+    caption_en: z.string().optional(),
+    caption_ar: z.string().optional(),
+  })).optional(),
   completed_at: z.string().nullable().optional(),
 });
 

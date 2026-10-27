@@ -2,6 +2,14 @@ export type Locale = 'en' | 'ar';
 
 export type ProjectState = 'completed' | 'in_progress' | 'experiment';
 
+export interface ProjectImage {
+  url: string;
+  alt_en?: string;
+  alt_ar?: string;
+  caption_en?: string;
+  caption_ar?: string;
+}
+
 export interface Project {
   id: string;
   title_en: string;
@@ -32,6 +40,7 @@ export interface Project {
   cover_image_url: string | null;
   cover_image_alt_en: string | null;
   cover_image_alt_ar: string | null;
+  gallery_images: ProjectImage[];
   completed_at: string | null;
   created_at: string;
   updated_at: string;

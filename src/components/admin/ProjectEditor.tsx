@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Project, ProjectState, SiteSettings } from '@/types';
+import type { Project, ProjectState, SiteSettings, ProjectImage } from '@/types';
 import { slugify } from '@/lib/utils';
 import { cn } from '@/lib/cn';
 import { GitHubIntegration } from './GitHubIntegration';
@@ -54,6 +54,7 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
     cover_image_url: project?.cover_image_url || '',
     cover_image_alt_en: project?.cover_image_alt_en || '',
     cover_image_alt_ar: project?.cover_image_alt_ar || '',
+    gallery_images: project?.gallery_images || [],
     completed_at: project?.completed_at ? project.completed_at.split('T')[0] : '',
   });
 
@@ -612,6 +613,189 @@ export function ProjectEditor({ project, settings }: ProjectEditorProps) {
                 onChange={(e) => setFormData(prev => ({ ...prev, cover_image_alt_ar: e.target.value }))}
                 className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
               />
+            </div>
+
+            {/* Gallery Images Section */}
+            <div className="border-t border-border pt-6 mt-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-label text-foreground">Gallery Images (Optional)</h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(prev => ({
+                      ...prev,
+                      gallery_images: [
+                        ...prev.gallery_images,
+                        { url: '', alt_en: '', alt_ar: '', caption_en: '', caption_ar: '' }
+                      ]
+                    }));
+                  }}
+                  className="text-small text-background bg-foreground px-3 py-1.5 hover:bg-accent transition-colors focus-ring"
+                >
+                  + Add Image
+                </button>
+              </div>
+              
+              <p className="text-xs text-muted mb-4">
+                Add additional images to showcase your project. These are optional.
+              </p>
+
+              {formData.gallery_images.length === 0 ? (
+                <div className="border border-dashed border-border p-8 text-center">
+                  <p className="text-small text-muted">No gallery images yet</p>
+                  <p className="text-xs text-subtle mt-1">Click "Add Image" to add gallery images</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {formData.gallery_images.map((image, index) => (
+                    <div key={index} className="border border-border p-4 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-small text-foreground font-medium">
+                          Image {index + 1}
+                        </span>
+                        <div className="flex gap-2">
+                          {index > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newImages = [...formData.gallery_images];
+                                [newImages[index], newImages[index - 1]] = [newImages[index - 1], newImages[index]];
+                                setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                              }}
+                              className="text-xs text-muted hover:text-foreground transition-colors"
+                            >
+                              ↑ Move Up
+                            </button>
+                          )}
+                          {index < formData.gallery_images.length - 1 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newImages = [...formData.gallery_images];
+                                [newImages[index], newImages[index + 1]] = [newImages[index + 1], newImages[index]];
+                                setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                              }}
+                              className="text-xs text-muted hover:text-foreground transition-colors"
+                            >
+                              ↓ Move Down
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newImages = formData.gallery_images.filter((_, i) => i !== index);
+                              setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                            }}
+                            className="text-xs text-error hover:text-error/80 transition-colors"
+                          >
+                            ✕ Remove
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-label text-subtle block mb-2">
+                          Image URL *
+                        </label>
+                        <input
+                          type="url"
+                          value={image.url}
+                          onChange={(e) => {
+                            const newImages = [...formData.gallery_images];
+                            newImages[index] = { ...newImages[index], url: e.target.value };
+                            setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                          }}
+                          placeholder="https://example.com/image.jpg"
+                          className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
+                        />
+                      </div>
+
+                      {image.url && (
+                        <div className="aspect-video bg-surface border border-border overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={image.url}
+                            alt={image.alt_en || `Gallery image ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-label text-subtle block mb-2">
+                            Alt Text (English)
+                          </label>
+                          <input
+                            type="text"
+                            value={image.alt_en || ''}
+                            onChange={(e) => {
+                              const newImages = [...formData.gallery_images];
+                              newImages[index] = { ...newImages[index], alt_en: e.target.value };
+                              setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                            }}
+                            placeholder="Describe the image"
+                            className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
+                          />
+                        </div>
+
+                        <div dir="rtl">
+                          <label className="text-label text-subtle block mb-2">
+                            نص بديل (عربي)
+                          </label>
+                          <input
+                            type="text"
+                            value={image.alt_ar || ''}
+                            onChange={(e) => {
+                              const newImages = [...formData.gallery_images];
+                              newImages[index] = { ...newImages[index], alt_ar: e.target.value };
+                              setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                            }}
+                            placeholder="وصف الصورة"
+                            className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-label text-subtle block mb-2">
+                            Caption (English) - Optional
+                          </label>
+                          <input
+                            type="text"
+                            value={image.caption_en || ''}
+                            onChange={(e) => {
+                              const newImages = [...formData.gallery_images];
+                              newImages[index] = { ...newImages[index], caption_en: e.target.value };
+                              setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                            }}
+                            placeholder="Image caption"
+                            className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
+                          />
+                        </div>
+
+                        <div dir="rtl">
+                          <label className="text-label text-subtle block mb-2">
+                            وصف (عربي) - اختياري
+                          </label>
+                          <input
+                            type="text"
+                            value={image.caption_ar || ''}
+                            onChange={(e) => {
+                              const newImages = [...formData.gallery_images];
+                              newImages[index] = { ...newImages[index], caption_ar: e.target.value };
+                              setFormData(prev => ({ ...prev, gallery_images: newImages }));
+                            }}
+                            placeholder="وصف الصورة"
+                            className="w-full bg-surface border border-border px-4 py-3 text-foreground focus-ring focus:border-accent"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

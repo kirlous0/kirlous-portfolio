@@ -154,6 +154,39 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
             </div>
           )}
 
+          {/* Gallery Images */}
+          {project.gallery_images && project.gallery_images.length > 0 && (
+            <div className="mb-16 md:mb-24">
+              <h2 className="text-2xl text-foreground font-medium mb-8">
+                {locale === 'en' ? 'Project Gallery' : 'معرض الصور'}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.gallery_images.map((image, index) => {
+                  const imgAlt = locale === 'ar' ? image.alt_ar : image.alt_en;
+                  const imgCaption = locale === 'ar' ? image.caption_ar : image.caption_en;
+                  
+                  return (
+                    <figure key={index} className="space-y-3">
+                      <div className="aspect-[4/3] bg-surface overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={image.url}
+                          alt={imgAlt || `${title} - Image ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      {imgCaption && (
+                        <figcaption className="text-small text-muted">
+                          {imgCaption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Content Sections */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="md:col-span-8 md:col-start-3">
